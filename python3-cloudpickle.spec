@@ -5,25 +5,26 @@
 Summary:	Extended pickling support for Python objects
 Summary(pl.UTF-8):	Rozszerzona obsługa operacji pickle dla obiektów pythonowych
 Name:		python3-cloudpickle
-Version:	1.6.0
-Release:	5
+Version:	2.2.1
+Release:	1
 License:	BSD
 Group:		Libraries/Python
 #Source0Download: https://pypi.org/simple/cloudpickle/
 Source0:	https://files.pythonhosted.org/packages/source/c/cloudpickle/cloudpickle-%{version}.tar.gz
-# Source0-md5:	f1202c1f0002166bfc785853c4684a82
+# Source0-md5:	640430615bdb68e1900bc26b84fad967
 URL:		https://pypi.org/project/cloudpickle/
-BuildRequires:	python3-modules >= 1:3.5
+BuildRequires:	python3-modules >= 1:3.6
 BuildRequires:	python3-setuptools
 %if %{with tests}
 BuildRequires:	python3-numpy
+BuildRequires:	python3-psutil
 BuildRequires:	python3-pytest
 BuildRequires:	python3-scipy
 BuildRequires:	python3-tornado
 %endif
 BuildRequires:	rpm-pythonprov
 BuildRequires:	rpmbuild(macros) >= 1.714
-Requires:	python3-modules >= 1:3.5
+Requires:	python3-modules >= 1:3.6
 BuildArch:	noarch
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
@@ -59,7 +60,7 @@ funkcjach lub klasach definiowanych interaktywnie w module __main__
 %py3_build
 
 %if %{with tests}
-PYTHONPATH=$(pwd)/tests/cloudpickle_testpkg \
+PYTHONPATH=$(pwd):$(pwd)/tests/cloudpickle_testpkg \
 %{__python3} -m unittest tests/cloudpickle_test.py tests/cloudpickle_file_test.py
 %endif
 
