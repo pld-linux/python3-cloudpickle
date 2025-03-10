@@ -6,7 +6,7 @@ Summary:	Extended pickling support for Python objects
 Summary(pl.UTF-8):	Rozszerzona obsługa operacji pickle dla obiektów pythonowych
 Name:		python3-cloudpickle
 Version:	2.2.1
-Release:	1
+Release:	2
 License:	BSD
 Group:		Libraries/Python
 #Source0Download: https://pypi.org/simple/cloudpickle/
