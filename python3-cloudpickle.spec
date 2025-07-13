@@ -1,20 +1,22 @@
 #
 # Conditional build:
-%bcond_with	tests	# unit tests (one fails on pytest.skip???)
+%bcond_with	tests	# unit tests (not in sdist)
 
 Summary:	Extended pickling support for Python objects
 Summary(pl.UTF-8):	Rozszerzona obsługa operacji pickle dla obiektów pythonowych
 Name:		python3-cloudpickle
-Version:	2.2.1
-Release:	3
+Version:	3.1.1
+Release:	1
 License:	BSD
 Group:		Libraries/Python
 #Source0Download: https://pypi.org/simple/cloudpickle/
 Source0:	https://files.pythonhosted.org/packages/source/c/cloudpickle/cloudpickle-%{version}.tar.gz
-# Source0-md5:	640430615bdb68e1900bc26b84fad967
+# Source0-md5:	68ae8d8eea1c5ebd2fcfffe2c5259721
 URL:		https://pypi.org/project/cloudpickle/
-BuildRequires:	python3-modules >= 1:3.6
-BuildRequires:	python3-setuptools
+BuildRequires:	python3-build
+BuildRequires:	python3-flit_core
+BuildRequires:	python3-installer
+BuildRequires:	python3-modules >= 1:3.8
 %if %{with tests}
 BuildRequires:	python3-numpy
 BuildRequires:	python3-psutil
@@ -23,8 +25,8 @@ BuildRequires:	python3-scipy
 BuildRequires:	python3-tornado
 %endif
 BuildRequires:	rpm-pythonprov
-BuildRequires:	rpmbuild(macros) >= 1.714
-Requires:	python3-modules >= 1:3.6
+BuildRequires:	rpmbuild(macros) >= 2.044
+Requires:	python3-modules >= 1:3.8
 BuildArch:	noarch
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
@@ -57,7 +59,7 @@ funkcjach lub klasach definiowanych interaktywnie w module __main__
 %setup -q -n cloudpickle-%{version}
 
 %build
-%py3_build
+%py3_build_pyproject
 
 %if %{with tests}
 PYTHONPATH=$(pwd):$(pwd)/tests/cloudpickle_testpkg \
@@ -67,13 +69,13 @@ PYTHONPATH=$(pwd):$(pwd)/tests/cloudpickle_testpkg \
 %install
 rm -rf $RPM_BUILD_ROOT
 
-%py3_install
+%py3_install_pyproject
 
 %clean
 rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(644,root,root,755)
-%doc LICENSE README.md
+%doc README.md
 %{py3_sitescriptdir}/cloudpickle
-%{py3_sitescriptdir}/cloudpickle-%{version}-py*.egg-info
+%{py3_sitescriptdir}/cloudpickle-%{version}.dist-info
